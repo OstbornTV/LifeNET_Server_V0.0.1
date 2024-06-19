@@ -14,6 +14,19 @@
 // Schreibe in die Server-Logdatei, dass das Skript gestartet wurde
 diag_log "fn_initMedic.sqf";
 
+diag_log "::Life Client:: Creating AGB Dialog";
+// AGB
+rulesok = false;
+if(!createDialog "agb") exitWith {};
+waitUntil{!isNull (findDisplay 32154)}; //Wait for the spawn selection to be open.
+waitUntil{isNull (findDisplay 32154)}; //Wait for the spawn selection to be done.
+if(!rulesok)then {        
+        player enableSimulation false;
+        ["agb",false,true] call BIS_fnc_endMission;
+        sleep 35;
+};
+rulesok = nil;
+
 // Überprüfe, ob der Spieler entweder kein Medic-Level hat oder kein Admin-Level ist
 if ((FETCH_CONST(life_medicLevel)) < 1 && (FETCH_CONST(life_adminlevel) isEqualTo 0)) exitWith {
     ["Notwhitelisted", false, true] call BIS_fnc_endMission;
@@ -50,3 +63,5 @@ waitUntil { isNull (findDisplay 38500) };
 // Holen Sie sich den Standort des Spielers und protokollieren Sie ihn
 private _standort = (text nearestLocation [ getPosATL player, "nameCity"]);
 [name player, (getPlayerUID player), format["joint als MEDIC nahe %1", _standort], 8] remoteExec ["TON_fnc_logIt", 2];
+
+[] spawn life_fnc_medicPlaceablesInit;

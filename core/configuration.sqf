@@ -11,6 +11,7 @@
 ****** Backend Variables *****
 *****************************
 */
+life_query_time = time;
 life_action_delay = time;  // Zeitstempel für Aktionen
 life_trunk_vehicle = objNull;  // Fahrzeug im Kofferraum (Initialisierung)
 life_session_completed = false;  // Status der Spieler-Session
@@ -18,6 +19,7 @@ life_garage_store = false;  // Flag für Fahrzeug in der Garage
 life_session_tries = 0;  // Versuche, eine Spielsession zu starten
 life_siren_active = false;  // Status der Sirene
 life_clothing_filter = 0;  // Kleidungsfilter (Initialisierung)
+life_clothing_uniform = -1;
 life_redgull_effect = time;  // Zeitstempel für RedGull-Effekt
 life_is_processing = false;  // Status für Verarbeitungsvorgänge
 life_bail_paid = false;  // Flag für gezahlte Kaution
@@ -37,6 +39,11 @@ life_container_activeObj = objNull;  // Aktives Container-Objekt (Initialisierun
 life_disable_getIn = false;  // Deaktiviere Einsteigen in Fahrzeuge
 life_disable_getOut = false;  // Deaktiviere Aussteigen aus Fahrzeugen
 life_admin_debug = false;  // Debug-Modus für Admins
+life_preview_3D_vehicle_cam = objNull;
+life_preview_3D_vehicle_object = objNull;
+life_preview_light = objNull;
+life_pos_exist = false;
+life_pos_attach = [];
 life_civ_position = [];  // Position des Zivilisten (Initialisierung)
 life_markers = false;  // Marker aktiviert
 life_markers_active = false;  // Aktive Marker
@@ -50,12 +57,29 @@ life_canLockPick = true;  // Spieler kann Schlösser knacken
 life_skikesDeployed = [];  // Liste der platzierten Spikestrips (Initialisierung)
 gettingBought = 0;  // Flag für kaufenden Vorgang
 
+//Perso
+fvs_persoReady = false;
+fvs_hakenregeln = false;
+fvs_checking = false;
+fvs_hakenrichtig = false;
+fvs_namenInfo = false;
+fvs_checking_a = false;
+fvs_namen_a = false;
+fvs_hakendaten = false;
+
+//EMP
+nn_last_vehicles = [];
+nn_empInUse = false;
+
 // Einstellungen
 life_settings_enableNewsBroadcast = profileNamespace getVariable ["life_enableNewsBroadcast", true];  // Aktiviere News-Broadcast
 life_settings_enableSidechannel = profileNamespace getVariable ["life_enableSidechannel", true];  // Aktiviere Sidechannel-Chat
 life_settings_viewDistanceFoot = profileNamespace getVariable ["life_viewDistanceFoot", 1250];  // Sichtweite zu Fuß
 life_settings_viewDistanceCar = profileNamespace getVariable ["life_viewDistanceCar", 1250];  // Sichtweite im Fahrzeug
 life_settings_viewDistanceAir = profileNamespace getVariable ["life_viewDistanceAir", 1250];  // Sichtweite in der Luft
+life_settings_tagson = profileNamespace getVariable ["life_settings_tagson",true];
+life_settings_revealObjects = profileNamespace getVariable ["life_settings_revealObjects",true];
+
 
 // Preise für Kleidung (Uniforme, Hut, Brille, Weste, Rucksack)
 life_clothing_purchase = [-1, -1, -1, -1, -1];
@@ -86,8 +110,27 @@ life_istazed = false;  // Spieler ist nicht betäubt
 life_isknocked = false;  // Spieler ist nicht bewusstlos
 life_vehicles = [];  // Liste der Fahrzeuge des Spielers (Initialisierung)
 
-// Unnötige Variable
-de100_luciandjuli_mula = 0;  // Unnötige Variable
+life_smartphoneTarget = ObjNull;
+life_unconscious = false;
+
+
+/*
+**************************************
+****** Placeables Variables *****
+**************************************
+*/
+life_definePlaceables = //Array aller Absperrungen (Cop + Medic)
+[
+ "RoadCone_F",
+ "RoadCone_L_F",
+ "RoadBarrier_F",
+ "RoadBarrier_small_F",
+ "PlasticBarrier_03_orange_F",
+ "Land_CncBarrier_stripes_F",
+ "Land_PortableLight_single_F",
+ "Land_PortableLight_double_F"
+];
+life_bar_limit = 20; //Maximale Anzahl Absperrungen pro Person
 
 // ACE-Einstellungen
 {

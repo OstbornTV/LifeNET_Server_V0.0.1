@@ -1,5 +1,13 @@
 #include "script_macros.hpp"
 
+/*
+    File: initPlayerLocal.sqf
+    Author:
+
+    Description:
+    Starts the initialization of the player.
+*/
+
 TFAR_giveMicroDagrToSoldier = false; 
 TFAR_giveLongRangeRadioToGroupLeaders = false; 
 TFAR_givePersonalRadioToRegularSoldier = false;

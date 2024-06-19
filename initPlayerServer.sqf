@@ -1,3 +1,11 @@
+/*
+    File: initPlayerServer.sqf
+    Author:
+
+    Description:
+    Executed only on server when a player joins mission.
+*/
+
 #define LIFE_SETTINGS(TYPE,SETTING) TYPE(missionConfigFile >> "Life_Settings" >> SETTING)
 
 diag_log "initPlayerServer.sqf";

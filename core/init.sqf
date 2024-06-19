@@ -11,6 +11,10 @@ diag_log "--------------------------------- Starting Altis Life Client Init ----
 diag_log format ["------------------------------------------ Version %1 -------------------------------------------", (LIFE_SETTINGS(getText, "framework_version"))];
 diag_log "----------------------------------------------------------------------------------------------------";
 
+private ["_handle","_timeStamp","_server_isReady","_extDB_notLoaded"];
+life_firstSpawn = true;
+life_session_completed = false;
+
 // Display initialization message
 0 cutText [localize "STR_Init_ClientSetup", "BLACK FADED", 99999999];
 
@@ -46,6 +50,18 @@ waitUntil {!isNil "life_server_isReady" && {!isNil "life_server_extDB_notLoaded"
 // Exit if extDB is not loaded
 if (life_server_extDB_notLoaded) exitWith {
     0 cutText [localize "STR_Init_ExtdbFail", "BLACK FADED", 99999999];
+};
+
+diag_log "::Life Client:: Waiting for the server to be ready..";
+waitUntil{!isNil "life_HC_isActive"};
+if (life_HC_isActive) then {
+    waitUntil{!isNil "life_HC_server_isReady" && !isNil "life_HC_server_extDB_notLoaded"};
+    _server_isReady = life_HC_server_isReady;
+    _extDB_notLoaded = life_HC_server_extDB_notLoaded;
+} else {
+    waitUntil{!isNil "life_server_isReady" && !isNil "life_server_extDB_notLoaded"};
+    _server_isReady = life_server_isReady;
+    _extDB_notLoaded = life_server_extDB_notLoaded;
 };
 
 // Wait for the server to finish loading

@@ -9,6 +9,7 @@
 */
 
 // Erstelle ein Array für Gebäude, die in WL_Rosche liegen
+private "_spawnPos";
 private _wl_roscheArray = [];
 private _spawnBuildings = [[["WL_Rosche", _wl_roscheArray]]] call life_util_fnc_terrainSort;
 
@@ -21,6 +22,20 @@ waitUntil { !(isNull (findDisplay 46)) };
 
 // Einstellungen für das Gehalt
 life_paycheck = LIFE_SETTINGS(getNumber, "paycheck_civ");
+
+diag_log "::Life Client:: Creating AGB Dialog";
+// AGB
+rulesok = false;
+if(!createDialog "agb") exitWith {};
+waitUntil{!isNull (findDisplay 32154)}; //Wait for the spawn selection to be open.
+waitUntil{isNull (findDisplay 32154)}; //Wait for the spawn selection to be done.
+if(!rulesok)then {        
+        player enableSimulation false;
+        ["agb",false,true] call BIS_fnc_endMission;
+        sleep 35;
+};
+rulesok = nil;
+
 
 // Überprüfe, ob der Spieler lebendig ist und nicht verhaftet wurde
 if (life_is_alive && !life_is_arrested) then {

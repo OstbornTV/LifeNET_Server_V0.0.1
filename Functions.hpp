@@ -149,6 +149,17 @@ class Life_Client_Core {
         class seizeWeapon {};
     };
 
+    class EMP {
+		file = "core\cop\emp";
+		class openEmpMenu {};
+		class isEmpOperator {};
+		class scanVehicles {};
+		class warnVehicle {};
+		class empVehicle {};
+		class vehicleWarned {};
+		class vehicleEmpd {};
+	};
+
     class Faction {
         file = "core\faction";
         class emergencySiren {};
